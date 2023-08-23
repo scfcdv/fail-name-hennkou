@@ -1,0 +1,30 @@
+<head>
+<link rel="icon" href="https://scfcdv.github.io/homeweb2/favicon.ico">
+<title>ファイル名変更プログラム</title>
+</head>
+<body>
+<input type="file" id="fileInput">
+<br>
+<label for="newFileName"></label>
+<input type="text" id="newFileName">
+<button onclick="changeFileName()">ファイル名変更</button>
+<script>
+function changeFileName() {
+const fileInput = document.getElementById("fileInput");
+const newFileNameInput = document.getElementById("newFileName");
+if (fileInput.files.length > 0) {
+const file = fileInput.files[0];
+const newFileName = newFileNameInput.value;
+const reader = new FileReader();
+reader.onload = function(event) {
+const fileContent = event.target.result;
+const newFile = new Blob([fileContent], { type: file.type });
+const downloadLink = document.createElement("a");
+downloadLink.href = URL.createObjectURL(newFile);
+downloadLink.download = newFileName || file.name;
+downloadLink.click();};
+reader.readAsArrayBuffer(file);
+} else {
+alert("ファイルを選択してください。");}}
+</script>
+</body>
